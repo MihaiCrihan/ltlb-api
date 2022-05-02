@@ -2,14 +2,16 @@
   "teacher": {
     "fields": {
       "id": "ID",
-      "first_name": "Nume",
+      "first_name": "Имя",
+      "last_name": "Фамилия",
       "user": "Utilizator",
       "role": "Rol",
       "email": "Email",
-      "created_at": "Creat la"
+      "address": "Адрес",
+      "created_at": "Дата создания"
     },
     "validation": {
-      "user_exists": "Utilizator cu asa email exista deja!"
+      "user_exists": "Пользователь с такой почтой уже существует!"
     }
   }
 }

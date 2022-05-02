@@ -2,10 +2,12 @@
   "teacher": {
     "fields": {
       "id": "ID",
-      "first_name": "Nume",
+      "first_name": "Prenume",
+      "last_name": "Nume",
       "user": "Utilizator",
       "role": "Rol",
       "email": "Email",
+      "address": "Adresa",
       "created_at": "Creat la"
     },
     "validation": {
