@@ -234,7 +234,7 @@ class AuthService:
             serializer = ForgotPasswordSerializer(data)
 
             if not serializer.is_valid():
-                return serializer.errors, 422
+                return UnprocessableEntity(errors=serializer.errors)
 
             user = self.repository.find_one(email=data.get('email'))
 
@@ -250,7 +250,7 @@ class AuthService:
             token = generate_confirmation_token(user.email)
 
             send_forgot_password_email(user.email,
-                                       f'{FlaskConfig.FRONTEND_ADDRESS}/reset_password?token={token}',
+                                       f'{FlaskConfig.FRONTEND_ADDRESS}/auth/reset/{token}',
                                        user.name)
 
             self.repository.update(user,

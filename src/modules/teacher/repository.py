@@ -31,13 +31,20 @@ class TeacherRepository(Teacher):
         page = kwargs.get('page', 1)
         page_size = kwargs.get('page_size', 20)
 
-        if kwargs.get('filters', None) is not None:
+        filters = kwargs.get('filters', None)
+
+        if filters is not None:
             for key in kwargs['filters']:
                 if key == 'degree_id':
                     teachers_ids = [item.teacher_id for item in
                                     TeacherPositions.query.filter_by(degree_id=kwargs["filters"][key]).all()]
 
                     query = query.filter(Teacher.id.in_(teachers_ids))
+                elif key == 'first_name' and filters.get(key, None):
+                    query = query.filter(Teacher.first_name.ilike(f'%{filters["first_name"]}%'))
+
+                elif key == 'last_name' and filters.get(key, None):
+                    query = query.filter(Teacher.last_name.ilike(f'%{filters["last_name"]}%'))
 
                 elif hasattr(self, key):
                     query = query.filter(getattr(self, key) == kwargs["filters"][key])

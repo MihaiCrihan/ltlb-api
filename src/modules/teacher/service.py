@@ -23,7 +23,7 @@ class TeacherService:
         self.t = Locales()
 
     def find(self):
-        headers = ['id', "first_name", "last_name", "address"]
+        headers = ['id', "first_name", "last_name", "address", "email"]
         params = request.args
         filters = params.get('filter', None)
 
