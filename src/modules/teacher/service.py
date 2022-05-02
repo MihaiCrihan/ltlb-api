@@ -23,7 +23,7 @@ class TeacherService:
         self.t = Locales()
 
     def find(self):
-        headers = ['id', "first_name", "last_name", "name_ru", "address"]
+        headers = ['id', "first_name", "last_name", "address"]
         params = request.args
         filters = params.get('filter', None)
 
@@ -48,7 +48,7 @@ class TeacherService:
                 } for item in response['items']],
             "headers": [{
                 "value": item,
-                "text": self.t.translate(f'goods.fields.{item}')
+                "text": self.t.translate(f'teacher.fields.{item}')
             } for item in headers]
         }
 

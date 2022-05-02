@@ -94,7 +94,7 @@ class ProfileService:
         old_details = TeacherDetails.query.filter_by(teacher_id=teacher_id).all()
 
         for item in old_details:
-            if not any(el.id == item.id for el in old_details):
+            if not any(el["id"] == item.id for el in details):
                 db.session.delete(item)
                 db.session.commit()
 

@@ -32,7 +32,7 @@ class Locales:
         if path.exists(locale_dir):
             for item in listdir(locale_dir):
                 if item.endswith('.json'):
-                    with open(f'{locale_dir}/{item}') as file:
+                    with open(f'{locale_dir}/{item}', encoding="utf-8") as file:
                         content = json.loads(file.read())
                         key = item.split('.')[0]
 

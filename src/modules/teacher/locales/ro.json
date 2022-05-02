@@ -2,7 +2,7 @@
   "teacher": {
     "fields": {
       "id": "ID",
-      "name": "Nume",
+      "first_name": "Nume",
       "user": "Utilizator",
       "role": "Rol",
       "email": "Email",
