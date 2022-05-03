@@ -7,7 +7,7 @@ from flask import request, g
 from flask_socketio import SocketIO
 from flask_jwt_extended import JWTManager
 from src.app.config import FlaskConfig
-from flask_redis import FlaskRedis
+from redis import Redis
 
 
 app = Flask(__name__, template_folder='../../templates', static_folder="../static")
@@ -21,8 +21,11 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 db.init_app(app)
 
-redis = FlaskRedis()
-redis.init_app(app)
+redis = Redis(
+    host=FlaskConfig.REDIS_HOST,
+    port=FlaskConfig.REDIS_PORT,
+    password=FlaskConfig.REDIS_PASSWORD
+)
 
 
 @app.before_request
