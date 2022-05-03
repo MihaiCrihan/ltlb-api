@@ -120,6 +120,7 @@ class PositionService:
     def get_list(self):
         try:
             if redis_service.get(RedisKeys.positions_list):
+                print(redis_service.get(RedisKeys.positions_list))
                 return redis_service.get(RedisKeys.positions_list)
 
             items = self.repository.list()

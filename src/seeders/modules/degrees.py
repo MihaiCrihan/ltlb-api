@@ -1,5 +1,6 @@
 from src.modules.degrees.models import Degree
 from src.app import db, app
+from faker import Faker
 
 data = [
     {
@@ -30,6 +31,11 @@ class DegreesSeeder:
             for item in data:
                 if not (Degree.query.filter_by(name=item['name']).first()):
                     self.seeder.append(Degree(name=item['name']))
+
+            for item in range(5000):
+                faker = Faker('ro_RO')
+                self.seeder.append(Degree(name=faker.name()))
+
             db.session.add_all(self.seeder)
             db.session.commit()
 

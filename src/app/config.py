@@ -47,3 +47,4 @@ class FlaskConfig(object):
     REDIS_PASSWORD = environ.get('REDIS_PASSWORD', '')
 
     ENVIRONMENT = 'DEV'
+
