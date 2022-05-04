@@ -121,7 +121,6 @@ class DegreeService:
     def get_list(self):
         try:
             if redis_service.get(RedisKeys.degrees_list):
-                print(redis_service.get(RedisKeys.degrees_list))
                 return redis_service.get(RedisKeys.degrees_list)
 
             items = self.repository.list()

@@ -41,6 +41,6 @@ class DegreeRepository(Degree):
             {
                 "value": item.id,
                 "text": item.name
-            } for item in self.query.query.with_entities(Degree.id, Degree.name).all()
+            } for item in self.query.with_entities(Degree.id, Degree.name).all()
         ]
 
