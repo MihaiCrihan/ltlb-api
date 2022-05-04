@@ -7,20 +7,18 @@ from src.app import db
 from .models import Notification, UserReadNotification
 from .repository import NotificationRepository
 from .serializer import CreateNotificationSerializer
+
 from src.services.http.errors import Success, UnprocessableEntity, InternalServerError, NotFound
+from src.services.localization import Locales
 
 
 class NotificationService:
     def __init__(self):
         self.repository = NotificationRepository()
+        self.t = Locales()
 
     def find(self):
-        headers = [
-            {"value": "id", "text": "ID"},
-            {"value": "title", "text": 'Title'},
-            {"value": "description", "text": 'Description'},
-            {"value": "created_at", "text": 'Created at'},
-        ]
+        headers = ["id", "title", "description", "created_at"]
 
         params = request.args
         page = int(params.get('page', 1))
@@ -39,7 +37,10 @@ class NotificationService:
             "pages": items.pages,
             "total": items.total,
             "page": page,
-            "headers": headers
+            "headers": [{
+                "value": item,
+                "text": self.t.translate(f'notifications.fields.{item}')
+            } for item in headers]
         }
 
         return jsonify(resp)

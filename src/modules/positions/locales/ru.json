@@ -2,7 +2,7 @@
   "positions": {
     "fields": {
       "id": "ID",
-      "name": "Nume",
+      "name": "Название",
       "created_at": "Creat la"
     },
     "validation": {

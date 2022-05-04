@@ -15,16 +15,16 @@ from src.services.http.errors import NotFound
 
 from src.services.redis import redis_service, RedisKeys
 
+from src.services.localization import Locales
+
 
 class PositionService:
     def __init__(self):
         self.repository = PositionRepository()
+        self.t = Locales()
 
     def find(self):
-        headers = [
-            {"value": "id", "text": "ID"},
-            {"value": "name", "text": 'Name'},
-        ]
+        headers = ["id", "name"]
 
         params = request.args
 
@@ -39,7 +39,10 @@ class PositionService:
                 } for item in items.items],
             "pages": items.pages,
             "total": items.total,
-            "headers": headers
+            "headers": [{
+                "value": item,
+                "text": self.t.translate(f'positions.fields.{item}')
+            } for item in headers]
         }
 
         return jsonify(resp)

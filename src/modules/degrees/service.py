@@ -9,19 +9,17 @@ from .repository import DegreeRepository
 from .serializer import CreateDegreeSerializer
 from src.services.http.errors import Success, UnprocessableEntity, InternalServerError, NotFound
 
+from src.services.localization import Locales
 from src.services.redis import redis_service, RedisKeys
 
 
 class DegreeService:
     def __init__(self):
         self.repository = DegreeRepository()
+        self.t = Locales()
 
     def find(self):
-        headers = [
-            {"value": "id", "text": "ID"},
-            {"value": "name", "text": 'Name'},
-        ]
-
+        headers = ["id", "name"]
         params = request.args
 
         items = self.repository \
@@ -35,7 +33,10 @@ class DegreeService:
                 } for item in items.items],
             "pages": items.pages,
             "total": items.total,
-            "headers": headers
+            "headers": [{
+                "value": item,
+                "text": self.t.translate(f'degrees.fields.{item}')
+            } for item in headers]
         }
 
         return jsonify(resp)

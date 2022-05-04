@@ -13,17 +13,16 @@ from src.services.http.permissions import save_permissions_to_file
 
 from src.services.http.errors import Success, UnprocessableEntity, InternalServerError, NotFound
 
+from src.services.localization import Locales
+
 
 class RoleService:
     def __init__(self):
         self.repository = RoleRepository()
+        self.t = Locales()
 
     def find(self):
-        headers = [
-            {"value": "id", "text": "ID"},
-            {"value": "name", "text": 'Name'},
-            {"value": "alias", "text": "Alias"}
-        ]
+        headers = ["id", "name", "alias"]
 
         params = request.args
         page_size = int(params.get('page_size', 20))
@@ -46,7 +45,10 @@ class RoleService:
             "total": items.total,
             "page_size": page_size,
             "page": page,
-            "headers": headers
+            "headers": [{
+                "value": item,
+                "text": self.t.translate(f'roles.fields.{item}')
+            } for item in headers]
         }
 
         return jsonify(resp)

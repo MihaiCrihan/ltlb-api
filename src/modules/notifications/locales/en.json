@@ -1,8 +1,8 @@
 {
-  "course": {
+  "notifications": {
     "fields": {
       "id": "ID",
-      "name": "Nume",
+      "title": "Title",
       "user": "Utilizator",
       "role": "Rol",
       "email": "Email",

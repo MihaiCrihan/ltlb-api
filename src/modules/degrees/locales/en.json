@@ -1,8 +1,8 @@
 {
-  "course": {
+  "degrees": {
     "fields": {
       "id": "ID",
-      "name": "Title",
+      "name": "Name",
       "user": "Utilizator",
       "role": "Rol",
       "email": "Email",

@@ -14,20 +14,17 @@ from src.modules.roles.repository import RoleRepository
 from src.services.http.errors import Success, UnprocessableEntity, InternalServerError, NotFound
 from src.modules.users.serializer import CreateUserSerializer
 
+from src.services.localization import Locales
+
 
 class UsersService:
     def __init__(self):
         self.repository = UserRepository()
         self.role_repository = RoleRepository()
+        self.t = Locales()
 
     def find(self):
-        headers = [
-            {"value": "id", "text": "ID"},
-            {"value": "name", "text": 'Name'},
-            {"value": "email", "text": "Email"},
-            {"value": "role", "text": "Role"},
-            {"value": "is_active", "text": "Active"}
-        ]
+        headers = ["id", "name",  "email", "role", "is_active"]
 
         params = request.args
         page_size = int(params.get('page_size', 20))
@@ -51,7 +48,10 @@ class UsersService:
             "page_size": page_size,
             "page": page,
             "total": items.total,
-            "headers": headers
+            "headers": [{
+                "value": item,
+                "text": self.t.translate(f'users.fields.{item}')
+            } for item in headers]
         }
 
         return jsonify(resp)
