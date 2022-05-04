@@ -7,7 +7,11 @@ from src.app import db
 from .models import Position
 from .repository import PositionRepository
 from .serializer import CreatePositionSerializer
-from src.services.http.errors import Success, UnprocessableEntity, InternalServerError, NotFound
+
+from src.services.http.errors import Success
+from src.services.http.errors import UnprocessableEntity
+from src.services.http.errors import InternalServerError
+from src.services.http.errors import NotFound
 
 from src.services.redis import redis_service, RedisKeys
 
@@ -120,7 +124,6 @@ class PositionService:
     def get_list(self):
         try:
             if redis_service.get(RedisKeys.positions_list):
-                print(redis_service.get(RedisKeys.positions_list))
                 return redis_service.get(RedisKeys.positions_list)
 
             items = self.repository.list()

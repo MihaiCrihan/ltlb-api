@@ -1,4 +1,3 @@
-
 from src.app import db
 from .models import Position
 
@@ -38,5 +37,10 @@ class PositionRepository(Position):
         return model
 
     def list(self):
-        return [{"value": item.id, "text": item.name} for item in self.query.all()]
+        return [
+            {
+                "value": item.id,
+                "text": item.name
+            } for item in self.query.with_entities(Position.id, Position.name).all()
+        ]
 
