@@ -90,4 +90,16 @@ class TeacherListResource(BaseResource):
         except Exception as e:
             logging.error(e)
             return InternalServerError()
-   
+
+
+class TeacherCoursesResource(BaseResource):
+    def __init__(self):
+        self.service = TeacherService()
+
+    @auth_required()
+    def get(self):
+        try:
+            return self.service.get_courses()
+        except Exception as e:
+            logging.error(e)
+            return InternalServerError()

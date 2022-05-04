@@ -154,6 +154,7 @@ class NotificationService:
         try:
             notifications = Notification.query.all()
             items = []
+
             for item in notifications:
                 if not UserReadNotification.query.filter_by(user_id=g.user.id, notification_id=item.id).first():
                     items.append(item)

@@ -150,3 +150,10 @@ class TeacherService:
         except Exception as e:
             logging.error(e)
             return InternalServerError()
+
+    def get_courses(self):
+        try:
+            return self.repository.get_courses()
+        except Exception as e:
+            logging.error(e)
+            return InternalServerError()
