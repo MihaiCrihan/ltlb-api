@@ -23,3 +23,11 @@ class RedisService:
         except Exception as e:
             logging.error(e)
             return None
+
+    def delete_all(self):
+        try:
+            self.redis.flushall()
+            return True
+        except Exception as e:
+            logging.error(e)
+            return False
