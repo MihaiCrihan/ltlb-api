@@ -3,7 +3,7 @@ version: "3.3"
 services:
   api:
     build: .
-    container_name: api
+
     env_file:
       - '.env'
     ports:
@@ -15,10 +15,12 @@ services:
     networks:
       - web
       - backend
+
   db:
     image: postgres:13.6-alpine
-    container_name: pg-db
+
     restart: unless-stopped
+
     environment:
       - "POSTGRES_DB=demo"
       - "POSTGRES_USER=postgres"
@@ -41,6 +43,18 @@ services:
 
     environment:
       - REDIS_REPLICATION_MODE=master
+
+    networks:
+      - backend
+
+
+  mongo:
+    image: mongo:5.0
+
+    restart: unless-stopped
+
+    volumes:
+      - ./data/mongo:/data/db
 
     networks:
       - backend
