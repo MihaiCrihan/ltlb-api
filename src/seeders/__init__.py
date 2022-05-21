@@ -5,6 +5,7 @@ from .modules.categories import categories_seeder
 from .modules.goods import goods_seeder
 from .modules.degrees import degree_seeder
 from .modules.positions import positions_seeder
+from .modules.profiles import profiles_seeder
 from datetime import datetime as dt
 
 
@@ -23,6 +24,7 @@ def seed_db():
             users_seeder,
             degree_seeder,
             positions_seeder,
+            profiles_seeder
             # categories_seeder,
             # goods_seeder
         ]

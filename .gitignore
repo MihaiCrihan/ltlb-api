@@ -3,8 +3,9 @@ venv/
 env/
 deploy.sh
 .idea/
-config/permissions.json
+config/permissions.jsonW
 logs/*
 .env*
 static/categories
 static/goods
+data/

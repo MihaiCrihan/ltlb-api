@@ -10,3 +10,4 @@ import src.modules.positions
 import src.modules.profile
 import src.modules.notifications
 import src.modules.redis
+import src.modules.reports

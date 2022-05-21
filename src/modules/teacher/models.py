@@ -48,6 +48,7 @@ class TeacherDetails(db.Model):
 class TeacherPositions(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id', ondelete='CASCADE'), nullable=True)
+    created_at = db.Column(db.DateTime, default=get_timestamp)
     position_id = db.Column(db.Integer, db.ForeignKey('position.id', ondelete='CASCADE'), nullable=True)
     degree_id = db.Column(db.Integer, db.ForeignKey('degree.id', ondelete='CASCADE'), nullable=True)
     work_experience = db.Column(db.Float, nullable=True)

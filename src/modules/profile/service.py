@@ -1,5 +1,5 @@
 from flask import request
-from flask import jsonify, g
+from flask import g
 from src.app.plugins import db
 from src.modules.teacher.models import TeacherCourse, Teacher, TeacherDetails
 from src.modules.teacher.models import TeacherPositions
@@ -7,12 +7,22 @@ from src.services.http.errors import Success
 from src.services.http.errors import UnprocessableEntity
 from src.services.http.errors import NotFound
 from .serializer import ProfileSerializer
+from src.services.mongo import mongo_service
+from src.modules.users.service import UsersService
+from threading import Thread
 
 
 class ProfileService:
-    def show(self, user_id=None):
+    def __init__(self):
+        self.mongo_service = mongo_service
+        self.user_service = UsersService()
+
+    def show(self, user_id=None, ignore_mongo=False):
         if not user_id:
             user_id = g.user.id
+
+        if not ignore_mongo and self.mongo_service.find_one('profile', user_id):
+            return self.mongo_service.find_one('profile', user_id)['data']
 
         teacher = Teacher.query.filter_by(user_id=user_id).first()
 
@@ -32,13 +42,15 @@ class ProfileService:
             "details": self.get_details(teacher.id)
         }
 
-        return jsonify(resp)
+        return resp
 
-    def update(self, user_id=None):
+    def update(self, user_id=None, data=None):
         if not user_id:
             user_id = g.user.id
 
-        data = request.json
+        if not data:
+            data = request.json
+
         serializer = ProfileSerializer(data=data)
 
         if not serializer.is_valid():
@@ -65,6 +77,8 @@ class ProfileService:
 
         db.session.commit()
 
+        thread = Thread(target=self.update_mongo, args=(user_id,))
+        thread.start()
         return Success()
 
     @staticmethod
@@ -92,11 +106,10 @@ class ProfileService:
     @staticmethod
     def update_details(details, teacher_id):
         old_details = TeacherDetails.query.filter_by(teacher_id=teacher_id).all()
-
-        for item in old_details:
-            if not any(el["id"] == item.id for el in details):
-                db.session.delete(item)
-                db.session.commit()
+        # for item in old_details:
+        #     if not any(el["id"] == item.id for el in details):
+        #         db.session.delete(item)
+        #         db.session.commit()
 
         for item in details:
             if item.get('id', None):
@@ -187,3 +200,20 @@ class ProfileService:
 
         if data.get('phone', None):
             model.phone = data['phone']
+
+        if data.get('first_name', None):
+            model.first_name = data['first_name']
+
+        if data.get('last_name', None):
+            model.last_name = data['last_name']
+
+    def sync_mongo(self):
+        users = self.user_service.get_list()
+
+        for user in users:
+            profile = self.show(user['value'], True)
+            self.mongo_service.create_or_update('profile', {"data": profile, "id": user['value']})
+
+    def update_mongo(self, id):
+        profile = self.show(id, True)
+        self.mongo_service.create_or_update('profile', {"data": profile, "id": id})
