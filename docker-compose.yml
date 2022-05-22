@@ -3,7 +3,7 @@ version: "3.3"
 services:
   api:
     build: .
-    container_name: api
+
     env_file:
       - '.env'
     ports:
@@ -15,10 +15,12 @@ services:
     networks:
       - web
       - backend
+
   db:
     image: postgres:13.6-alpine
-    container_name: pg-db
+
     restart: unless-stopped
+
     environment:
       - "POSTGRES_DB=demo"
       - "POSTGRES_USER=postgres"
@@ -27,8 +29,13 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
 
+
+    ports:
+      - "5432:5432"
+
     networks:
       - backend
+      - web
 
   redis:
     image: "redis:alpine"
@@ -44,6 +51,21 @@ services:
 
     networks:
       - backend
+      - web
+
+
+  mongo:
+    image: mongo:5.0
+
+    restart: unless-stopped
+
+    volumes:
+      - ./data/mongo:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+      - web
 
 networks:
   web:

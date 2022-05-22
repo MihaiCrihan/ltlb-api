@@ -79,8 +79,8 @@ class ForbiddenError(BaseError):
 
 class InternalServerError(BaseError):
     errors = None
-    message = "Forbidden"
-    status = 403
+    message = "Internal server error"
+    status = 500
 
 
 UnprocessableEntity = UnprocessableEntityError()

@@ -51,9 +51,10 @@ data = [
 class PositionsSeeder:
     seeder = []
 
-    def __init__(self):
+    def __init__(self, count=5000):
         self.seeder = []
         self.name = __name__
+        self.count = count
 
     def __call__(self):
         with app.app_context():
@@ -62,11 +63,11 @@ class PositionsSeeder:
                 if not (Position.query.filter_by(name=item['name']).first()):
                     self.seeder.append(Position(name=item['name']))
 
-            for item in range(5000):
+            for item in range(self.count):
                 faker = Faker('ro_RO')
                 self.seeder.append(Position(name=faker.name()))
             db.session.add_all(self.seeder)
             db.session.commit()
 
 
-positions_seeder = PositionsSeeder()
+positions_seeder = PositionsSeeder(50)

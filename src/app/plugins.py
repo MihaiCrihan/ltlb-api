@@ -8,6 +8,7 @@ from flask_socketio import SocketIO
 from flask_jwt_extended import JWTManager
 from src.app.config import FlaskConfig
 from redis import Redis
+from pymongo import MongoClient
 
 
 app = Flask(__name__, template_folder='../../templates', static_folder="../static")
@@ -20,6 +21,9 @@ CORS(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 db.init_app(app)
+
+mongo = MongoClient(FlaskConfig.MONGO_HOST, FlaskConfig.MONGO_PORT)
+
 
 redis = Redis(
     host=FlaskConfig.REDIS_HOST,

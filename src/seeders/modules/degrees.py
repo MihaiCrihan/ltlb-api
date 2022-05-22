@@ -21,9 +21,10 @@ data = [
 class DegreesSeeder:
     seeder = []
 
-    def __init__(self):
+    def __init__(self, count=5000):
         self.seeder = []
         self.name = __name__
+        self.count = count
 
     def __call__(self):
         with app.app_context():
@@ -32,7 +33,7 @@ class DegreesSeeder:
                 if not (Degree.query.filter_by(name=item['name']).first()):
                     self.seeder.append(Degree(name=item['name']))
 
-            for item in range(5000):
+            for item in range(self.count):
                 faker = Faker('ro_RO')
                 self.seeder.append(Degree(name=faker.name()))
 
@@ -40,4 +41,4 @@ class DegreesSeeder:
             db.session.commit()
 
 
-degree_seeder = DegreesSeeder()
+degree_seeder = DegreesSeeder(50)

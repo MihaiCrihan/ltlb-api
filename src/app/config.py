@@ -45,5 +45,8 @@ class FlaskConfig(object):
     REDIS_DB = environ.get('REDIS_DB', 0)
     REDIS_PASSWORD = environ.get('REDIS_PASSWORD', '')
 
+    MONGO_HOST = environ.get('MONGO_HOST', 'localhost')
+    MONGO_PORT = int(environ.get('MONGO_PORT', 27017))
+
     ENVIRONMENT = 'dev'
 
