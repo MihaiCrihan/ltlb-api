@@ -29,7 +29,7 @@ class PositionService:
         params = request.args
 
         items = self.repository \
-            .paginate(int(params.get('page', 1)), per_page=int(params.get('per_page', 20)))
+            .paginate(int(params.get('page[number]', 1)), per_page=int(params.get('page[size]', 20)))
 
         resp = {
             "items": [

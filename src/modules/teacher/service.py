@@ -27,8 +27,8 @@ class TeacherService:
         params = request.args
         filters = params.get('filter', None)
 
-        page = int(params.get('page', 1))
-        page_size = int(params.get('page_size', 20))
+        page = int(params.get('page[number]', 1))
+        page_size = int(params.get('page[size]', 20))
 
         if filters is not None:
             filters = loads(filters)

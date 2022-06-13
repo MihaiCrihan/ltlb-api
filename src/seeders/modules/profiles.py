@@ -33,7 +33,7 @@ def make_random_courses(count=50):
     return [
         {
             "dates": [
-                "23423"
+                "2012-12-12"
             ],
             "credits": randint(1, 50),
             "name": faker.name(),
