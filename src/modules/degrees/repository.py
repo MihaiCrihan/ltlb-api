@@ -1,3 +1,5 @@
+import time
+
 from src.app import db
 from .models import Degree
 
@@ -37,6 +39,7 @@ class DegreeRepository(Degree):
         return model
 
     def list(self):
+        time.sleep(0.3)
         return [
             {
                 "value": item.id,

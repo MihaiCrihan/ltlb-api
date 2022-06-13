@@ -1,5 +1,6 @@
 from src.app import db
 from .models import Position
+import time
 
 
 class PositionRepository(Position):
@@ -37,6 +38,7 @@ class PositionRepository(Position):
         return model
 
     def list(self):
+        time.sleep(0.3)
         return [
             {
                 "value": item.id,
