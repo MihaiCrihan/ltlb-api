@@ -70,4 +70,4 @@ class PositionsSeeder:
             db.session.commit()
 
 
-positions_seeder = PositionsSeeder(50)
+positions_seeder = PositionsSeeder(500)

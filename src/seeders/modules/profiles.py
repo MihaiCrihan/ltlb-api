@@ -117,4 +117,4 @@ class ProfileSeeder:
             db.session.commit()
 
 
-profiles_seeder = ProfileSeeder(100)
+profiles_seeder = ProfileSeeder(1000)

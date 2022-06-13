@@ -41,4 +41,4 @@ class DegreesSeeder:
             db.session.commit()
 
 
-degree_seeder = DegreesSeeder(50)
+degree_seeder = DegreesSeeder(500)

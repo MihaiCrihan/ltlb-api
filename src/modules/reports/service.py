@@ -29,7 +29,7 @@ class ReportService:
             return response
         except Exception as e:
             logging.error(e)
-            raise InternalServerError(e)
+            raise Exception(e)
 
     def get_between_dates_for_teacher(self, teacher_id):
         try:
@@ -48,7 +48,7 @@ class ReportService:
             }
         except Exception as e:
             logging.error(e)
-            raise InternalServerError(e)
+            raise Exception(e)
 
     @staticmethod
     def get_teacher_courses(teacher_id, start_date=None, end_date=None):

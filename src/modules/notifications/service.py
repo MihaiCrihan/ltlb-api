@@ -121,6 +121,7 @@ class NotificationService:
 
     def get_list(self):
         try:
+            print('get list')
             params = request.args
             page = int(params.get('page', 1))
 
