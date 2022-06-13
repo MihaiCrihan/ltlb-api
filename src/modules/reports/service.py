@@ -39,14 +39,14 @@ class ReportService:
 
             courses = self.get_teacher_courses(teacher_id, end_date=params['end_date'], start_date=params['start_date'])
             positions = self.get_teacher_positions(teacher_id)
-            return {
+            return [{
                 "teacher": {
                     "first_name": teacher.first_name,
                     "last_name": teacher.last_name
                 },
                 "courses": courses,
                 "positions": positions
-            }
+            }]
         except Exception as e:
             logging.error(e)
             raise Exception(e)
