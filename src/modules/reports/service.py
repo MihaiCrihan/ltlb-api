@@ -18,14 +18,15 @@ class ReportService:
                 courses = self.get_teacher_courses(teacher.id, end_date=params['end_date'],
                                                    start_date=params['start_date'])
                 positions = self.get_teacher_positions(teacher.id)
-                response.append({
-                    "teacher": {
-                        "first_name": teacher.first_name,
-                        "last_name": teacher.last_name
-                    },
-                    "courses": courses,
-                    "positions": positions
-                })
+                if len(courses):
+                    response.append({
+                        "teacher": {
+                            "first_name": teacher.first_name,
+                            "last_name": teacher.last_name
+                        },
+                        "courses": courses,
+                        "positions": positions
+                    })
             return response
         except Exception as e:
             logging.error(e)
