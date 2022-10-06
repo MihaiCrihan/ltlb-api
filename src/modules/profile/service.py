@@ -7,22 +7,17 @@ from src.services.http.errors import Success
 from src.services.http.errors import UnprocessableEntity
 from src.services.http.errors import NotFound
 from .serializer import ProfileSerializer
-from src.services.mongo import mongo_service
 from src.modules.users.service import UsersService
 from threading import Thread
 
 
 class ProfileService:
     def __init__(self):
-        self.mongo_service = mongo_service
         self.user_service = UsersService()
 
-    def show(self, user_id=None, ignore_mongo=False):
+    def show(self, user_id=None):
         if not user_id:
             user_id = g.user.id
-
-        if not ignore_mongo and self.mongo_service.find_one('profile', user_id):
-            return self.mongo_service.find_one('profile', user_id)['data']
 
         teacher = Teacher.query.filter_by(user_id=user_id).first()
 
@@ -77,8 +72,6 @@ class ProfileService:
 
         db.session.commit()
 
-        thread = Thread(target=self.update_mongo, args=(user_id,))
-        thread.start()
         return Success()
 
     @staticmethod
@@ -206,14 +199,3 @@ class ProfileService:
 
         if data.get('last_name', None):
             model.last_name = data['last_name']
-
-    def sync_mongo(self):
-        users = self.user_service.get_list()
-
-        for user in users:
-            profile = self.show(user['value'], True)
-            self.mongo_service.create_or_update('profile', {"data": profile, "id": user['value']})
-
-    def update_mongo(self, id):
-        profile = self.show(id, True)
-        self.mongo_service.create_or_update('profile', {"data": profile, "id": id})

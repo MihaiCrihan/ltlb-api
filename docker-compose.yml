@@ -56,19 +56,6 @@ services:
       - web
 
 
-  mongo:
-    image: mongo:5.0
-
-    restart: unless-stopped
-
-    volumes:
-      - ./data/mongo:/data/db
-    ports:
-      - "27017:27017"
-    networks:
-      - backend
-      - web
-
 networks:
   web:
     external: true
